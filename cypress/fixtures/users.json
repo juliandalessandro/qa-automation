@@ -1,0 +1,24 @@
+{
+    "successfulLoginUser": {
+        "username": "standard_user",
+        "password": "secret_sauce"
+    },
+    "invalidUser": {
+        "username": "invalid_user",
+        "password": "secret_sauce"
+    },
+    "wrongPasswordLoginUser": {
+        "username": "standard_user",
+        "password": "wrong_password"
+    },
+    "emptyUsernameLoginUser": {
+        "password": "secret_sauce"
+    },
+    "emptyPasswordLoginUser": {
+        "username": "standard_user"
+    },
+    "lockedOutUserLogin": {
+        "username": "locked_out_user",
+        "password": "secret_sauce"
+    }
+}

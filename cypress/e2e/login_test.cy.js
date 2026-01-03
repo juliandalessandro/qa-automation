@@ -1,12 +1,21 @@
 import { loginPage } from "../pages/LoginPage";
 
 describe('Login Tests', () => {
+
+    let users;
+
+    before(() => {
+        cy.fixture('users').then((data) => {
+            users = data;
+        });
+    });
+
     beforeEach(() => {
         loginPage.visit();
     });
     
     it('Login Successful', () => {
-        loginPage.login('standard_user', 'secret_sauce');
+        loginPage.login(users.successfulLoginUser.username, users.successfulLoginUser.password);
 
         loginPage.elements.productsTitle()
         .should('be.visible')
@@ -14,10 +23,7 @@ describe('Login Tests', () => {
     });
 
     it('Login with invalid user', () => {
-        loginPage.typeUsername('invalid_user');
-        loginPage.typePassword('secret_sauce');
-
-        loginPage.clickLogin();
+        loginPage.login(users.invalidUser.username, users.invalidUser.password);
 
         loginPage.elements.errorMessage()
         .should('be.visible')
@@ -25,10 +31,7 @@ describe('Login Tests', () => {
     });
 
     it('Login with wrong password', () => {
-        loginPage.typeUsername('standard_user');
-        loginPage.typePassword('wrongpassword');
-
-        loginPage.clickLogin();
+        loginPage.login(users.wrongPasswordLoginUser.username, users.wrongPasswordLoginUser.password);
 
         loginPage.elements.errorMessage()
         .should('be.visible')
@@ -36,7 +39,7 @@ describe('Login Tests', () => {
     });
 
     it('Login with empty username', () => {
-        loginPage.typePassword('secret_sauce');
+        loginPage.typePassword(users.emptyUsernameLoginUser.password);
 
         loginPage.clickLogin();
 
@@ -46,7 +49,7 @@ describe('Login Tests', () => {
     });    
 
     it('Login with empty password', () => {
-        loginPage.typeUsername('standard_user');
+        loginPage.typeUsername(users.emptyPasswordLoginUser.username);
 
         loginPage.clickLogin();
 
@@ -64,10 +67,7 @@ describe('Login Tests', () => {
     });
 
     it('Login with locked out user', () => {
-        loginPage.typeUsername('locked_out_user');
-        loginPage.typePassword('secret_sauce');
-
-        loginPage.clickLogin();
+        loginPage.login(users.lockedOutUserLogin.username, users.lockedOutUserLogin.password);
 
         loginPage.elements.errorMessage()
         .should('be.visible')
