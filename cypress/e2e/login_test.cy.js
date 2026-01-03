@@ -17,6 +17,9 @@ describe('Login Tests', () => {
     it('Login Successful', () => {
         loginPage.login(users.successfulLoginUser.username, users.successfulLoginUser.password);
 
+        //Usando Custom Commands
+        // cy.login(users.successfulLoginUser.username, users.successfulLoginUser.password);
+
         loginPage.elements.productsTitle()
         .should('be.visible')
         .and('have.text', 'Products')
