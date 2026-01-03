@@ -1,14 +1,7 @@
 import { loginPage } from "../pages/LoginPage";
+import users from '../fixtures/users.json';
 
 describe('Login Tests', () => {
-
-    let users;
-
-    before(() => {
-        cy.fixture('users').then((data) => {
-            users = data;
-        });
-    });
 
     beforeEach(() => {
         loginPage.visit();
@@ -23,22 +16,6 @@ describe('Login Tests', () => {
         loginPage.elements.productsTitle()
         .should('be.visible')
         .and('have.text', 'Products')
-    });
-
-    it('Login with invalid user', () => {
-        loginPage.login(users.invalidUser.username, users.invalidUser.password);
-
-        loginPage.elements.errorMessage()
-        .should('be.visible')
-        .and('have.text', 'Epic sadface: Username and password do not match any user in this service');           
-    });
-
-    it('Login with wrong password', () => {
-        loginPage.login(users.wrongPasswordLoginUser.username, users.wrongPasswordLoginUser.password);
-
-        loginPage.elements.errorMessage()
-        .should('be.visible')
-        .and('have.text', 'Epic sadface: Username and password do not match any user in this service');
     });
 
     it('Login with empty username', () => {
@@ -69,11 +46,15 @@ describe('Login Tests', () => {
         .and('have.text', 'Epic sadface: Username is required');
     });
 
-    it('Login with locked out user', () => {
-        loginPage.login(users.lockedOutUserLogin.username, users.lockedOutUserLogin.password);
+    /* Invalid Users validations - Data Driven */
+
+    users.invalidUsers.forEach((user) => {
+        it(`Login inválido - ${user.case}`, () => {
+        loginPage.login(user.username, user.password);
 
         loginPage.elements.errorMessage()
-        .should('be.visible')
-        .and('have.text', 'Epic sadface: Sorry, this user has been locked out.');
+            .should('be.visible')
+            .and('contain.text', user.error);
+        });
     });
-})
+});

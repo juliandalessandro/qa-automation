@@ -3,22 +3,28 @@
         "username": "standard_user",
         "password": "secret_sauce"
     },
-    "invalidUser": {
-        "username": "invalid_user",
-        "password": "secret_sauce"
-    },
-    "wrongPasswordLoginUser": {
-        "username": "standard_user",
-        "password": "wrong_password"
-    },
+    "invalidUsers": [
+        {
+            "case": "Invalid user",
+            "username": "invalid_user",
+            "password": "secret_sauce",
+            "error": "Epic sadface: Username and password do not match any user in this service" 
+        },
+        {   "case": "wrongPasswordLoginUser",
+            "username": "standard_user",
+            "password": "wrong_password",
+            "error": "Epic sadface: Username and password do not match any user in this service"
+        },        
+        {   "case": "lockedOutUserLogin",
+            "username": "locked_out_user",
+            "password": "secret_sauce",
+            "error": "Epic sadface: Sorry, this user has been locked out."
+        }
+    ],
     "emptyUsernameLoginUser": {
-        "password": "secret_sauce"
+            "password": "secret_sauce"
     },
     "emptyPasswordLoginUser": {
-        "username": "standard_user"
-    },
-    "lockedOutUserLogin": {
-        "username": "locked_out_user",
-        "password": "secret_sauce"
+            "username": "standard_user"
     }
 }
