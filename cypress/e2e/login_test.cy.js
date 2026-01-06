@@ -6,16 +6,17 @@ describe('Login Tests', () => {
     beforeEach(() => {
         loginPage.visit();
     });
-    
-    it('Login Successful', () => {
-        loginPage.login(users.successfulLoginUser.username, users.successfulLoginUser.password);
 
-        //Usando Custom Commands
-        // cy.login(users.successfulLoginUser.username, users.successfulLoginUser.password);
+    /* Invalid Users validations - Custom Commands & Data Driven */
+
+    users.validUsers.forEach((user) => {
+        it(`Valid Login - ${user.role}`, () => {
+        cy.loginAs(user.role);
 
         loginPage.elements.productsTitle()
-        .should('be.visible')
-        .and('have.text', 'Products')
+            .should('be.visible')
+            .and('have.text', 'Products');
+        });
     });
 
     it('Login with empty username', () => {
@@ -49,7 +50,7 @@ describe('Login Tests', () => {
     /* Invalid Users validations - Data Driven */
 
     users.invalidUsers.forEach((user) => {
-        it(`Login inválido - ${user.case}`, () => {
+        it(`Invalid Login - ${user.case}`, () => {
         loginPage.login(user.username, user.password);
 
         loginPage.elements.errorMessage()
