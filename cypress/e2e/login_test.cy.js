@@ -13,6 +13,9 @@ describe('Login Tests', () => {
         it(`Valid Login - ${user.role}`, () => {
         cy.loginAs(user.role);
 
+        cy.getCookie('session-username')
+        .should('exist');
+
         loginPage.elements.productsTitle()
             .should('be.visible')
             .and('have.text', 'Products');
@@ -23,6 +26,9 @@ describe('Login Tests', () => {
         loginPage.typePassword(users.emptyUsernameLoginUser.password);
 
         loginPage.clickLogin();
+
+        cy.getCookie('session-username')
+        .should('not.exist');
 
         loginPage.elements.errorMessage()
         .should('be.visible')
